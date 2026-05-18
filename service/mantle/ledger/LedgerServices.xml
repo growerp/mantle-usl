@@ -1813,6 +1813,17 @@ along with this software (see the LICENSE.md file). If not, see
                 </iterate>
             </iterate>
 
+            <script><![CDATA[
+                if (ec.user.userId) {
+                    def nm = ec.makeNotificationMessage()
+                    nm.topic("LedgerRecalculation")
+                    nm.title("Ledger Recalculation Complete")
+                    nm.message([message: "GL Account summaries recalculation completed (${gaoUpdated} org, ${gaotpUpdated} period records updated in ${System.currentTimeMillis() - startTime}ms)"])
+                    nm.type("success")
+                    nm.userId(ec.user.userId)
+                    nm.send()
+                }
+            ]]></script>
             <message>Updated GL Account Org Summaries for orgs ${organizationPartyIds} in ${System.currentTimeMillis() - startTime}ms; updated ${gaoUpdated} Organization and ${gaotpUpdated} Period summary records</message>
         </actions>
     </service>
